@@ -14,7 +14,7 @@ function hash(str) {
 }
 
 function split(str) {
-  return str.split('').join(' ')
+  return [...str].join(' ')
 }
 
 // Set limit to 1 message per 0.5 seconds
