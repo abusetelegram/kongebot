@@ -1,5 +1,7 @@
 const Telegraf = require('telegraf')
 const rateLimit = require('telegraf-ratelimit')
+const GraphemeSplitter = require('grapheme-splitter');
+const splitter = new GraphemeSplitter();
 
 // generate id for result
 function hash(str) {
@@ -14,7 +16,7 @@ function hash(str) {
 }
 
 function split(str) {
-  return [...str].join(' ')
+  return splitter.splitGraphemes("abcd").join(' ')
 }
 
 // Set limit to 1 message per 0.5 seconds
