@@ -10,3 +10,8 @@
 
 1. 直接发送消息给机器人 [@kongebot](https://t.me/kongebot) 帮你转换
 2. 在消息框内使用`inline mode`：`@kongebot {需要加空格的文字}`
+
+## 入口
+
+- [AWS Lambda](./lambda.js)
+- [Fission.io/default](./fission.js)
