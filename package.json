@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "zip -r release.zip . -x '*.git*'  -x '*node_modules*'"
+  },
   "dependencies": {
     "dotenv": "^8.2.0",
     "grapheme-splitter": "^1.0.4",

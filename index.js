@@ -1,3 +1,8 @@
+if (!process.env.BOT_TOKEN) {
+  const path = require('path')
+  const envpath = path.resolve(__dirname, '.env')
+  require('dotenv').config({ path: envpath })
+}
 const Telegraf = require('telegraf')
 const rateLimit = require('telegraf-ratelimit')
 const GraphemeSplitter = require('grapheme-splitter');
@@ -16,7 +21,7 @@ function hash(str) {
 }
 
 function split(str) {
-  return splitter.splitGraphemes("abcd").join(' ')
+  return splitter.splitGraphemes(str).join(' ')
 }
 
 // Set limit to 1 message per 0.5 seconds
