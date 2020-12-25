@@ -1,11 +1,7 @@
 const bot = require('./index')
 
-module.exports = async function(context) {
-    const tmp = context.request.body; // get data passed to us
-    bot.handleUpdate(tmp); // make Telegraf process that data
-    return {
-        status: 200,
-        body: "Hello Kongebot!"
-    }
+module.exports = async function(ctx) {
+    await bot.handleUpdate(ctx.request.body, ctx.response); // make Telegraf process that data
+    ctx.response.status(200).end()
 };
   
