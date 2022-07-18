@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "zip -r release.zip . -x '*.git*'  -x '*node_modules*'"
+    "build": "zip -r release.zip . -x '*.git*'  -x '*node_modules*'",
+    "start:webhook": "node webhook.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",

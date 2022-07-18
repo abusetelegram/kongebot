@@ -3,8 +3,12 @@ if (!process.env.BOT_TOKEN) {
   const envpath = path.resolve(__dirname, '.env')
   require('dotenv').config({ path: envpath })
 }
+const bot_token = process.env.BOT_TOKEN
+if (!bot_token) {
+  console.error("No Bot token provided. Please double check.")
+}
+
 const Telegraf = require('telegraf')
-const rateLimit = require('telegraf-ratelimit')
 const GraphemeSplitter = require('grapheme-splitter');
 const splitter = new GraphemeSplitter();
 
@@ -24,14 +28,7 @@ function split(str) {
   return splitter.splitGraphemes(str).join(' ')
 }
 
-// Set limit to 1 message per 0.5 seconds
-const limitConfig = {
-  window: 500,
-  limit: 1,
-  onLimitExceeded: (ctx, next) => console.log('Rate limit exceeded')
-}
-
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(bot_token)
 
 bot.start((ctx) => ctx.reply('你 打 字 带 空 格？\r\n 直接发送要转换的消息，或者在inline模式输入文字'))
 bot.on('text', (ctx) => ctx.reply(split(ctx.message.text)))
