@@ -3,54 +3,62 @@
 
 
 "@types/node@^10.1.2":
-  "integrity" "sha512-Zh5Z4kACfbeE8aAOYh9mqotRxaZMro8MbBQtR8vEXOMiZo2rGEh2LayJijKdlu48YnS6y2EFU/oo2NCe5P6jGw=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-10.12.7.tgz"
-  "version" "10.12.7"
+  version "10.12.7"
+  resolved "https://registry.npmjs.org/@types/node/-/node-10.12.7.tgz"
 
-"debug@^4.0.1":
-  "integrity" "sha512-heNPJUJIqC+xB6ayLAMHaIrmN9HKa7aQO8MGqKpvCA+uJYVcvR6l5kgdrhRuwPFHU7P5/A1w0BjByPHwpfTDKg=="
-  "resolved" "https://registry.npmjs.org/debug/-/debug-4.1.0.tgz"
-  "version" "4.1.0"
+debug@^4.0.1:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/debug/-/debug-4.1.0.tgz"
   dependencies:
-    "ms" "^2.1.1"
+    ms "^2.1.1"
 
-"dotenv@^8.2.0":
-  "integrity" "sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw=="
-  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz"
-  "version" "8.2.0"
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz"
 
-"grapheme-splitter@^1.0.4":
-  "integrity" "sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ=="
-  "resolved" "https://registry.npmjs.org/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz"
-  "version" "1.0.4"
+grapheme-splitter@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz"
 
-"ms@^2.1.1":
-  "integrity" "sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg=="
-  "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.1.tgz"
-  "version" "2.1.1"
+ms@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/ms/-/ms-2.1.1.tgz"
 
-"node-fetch@^2.2.0":
-  "integrity" "sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA=="
-  "resolved" "https://registry.npmjs.org/node-fetch/-/node-fetch-2.3.0.tgz"
-  "version" "2.3.0"
+node-fetch@^2.2.0:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  dependencies:
+    whatwg-url "^5.0.0"
 
-"sandwich-stream@^2.0.1":
-  "integrity" "sha512-jLYV0DORrzY3xaz/S9ydJL6Iz7essZeAfnAavsJ+zsJGZ1MOnsS52yRjU3uF3pJa/lla7+wisp//fxOwOH8SKQ=="
-  "resolved" "https://registry.npmjs.org/sandwich-stream/-/sandwich-stream-2.0.2.tgz"
-  "version" "2.0.2"
+sandwich-stream@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/sandwich-stream/-/sandwich-stream-2.0.2.tgz"
 
-"telegraf@^3.25.0":
-  "integrity" "sha512-W2L/9LIOndtzqgEnJPlDJS8Q/gwoRS/a7FvoV9kPhKwRWtJtiP8xhkr66GMbOhnB0RgSK6GMrgeZtXNzLn/bQg=="
-  "resolved" "https://registry.npmjs.org/telegraf/-/telegraf-3.25.0.tgz"
-  "version" "3.25.0"
+telegraf@^3.25.0:
+  version "3.25.0"
+  resolved "https://registry.npmjs.org/telegraf/-/telegraf-3.25.0.tgz"
   dependencies:
     "@types/node" "^10.1.2"
-    "debug" "^4.0.1"
-    "node-fetch" "^2.2.0"
-    "sandwich-stream" "^2.0.1"
-    "telegram-typings" "^3.6.0"
+    debug "^4.0.1"
+    node-fetch "^2.2.0"
+    sandwich-stream "^2.0.1"
+    telegram-typings "^3.6.0"
 
-"telegram-typings@^3.6.0":
-  "integrity" "sha512-njVv1EAhIZnmQVLocZEADYUyqA1WIXuVcDYlsp+mXua/XB0pxx+PKtMSPeZ/EE4wPWTw9h/hA9ASTT6yQelkiw=="
-  "resolved" "https://registry.npmjs.org/telegram-typings/-/telegram-typings-3.6.1.tgz"
-  "version" "3.6.1"
+telegram-typings@^3.6.0:
+  version "3.6.1"
+  resolved "https://registry.npmjs.org/telegram-typings/-/telegram-typings-3.6.1.tgz"
+
+tr46@~0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
+
+webidl-conversions@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
+
+whatwg-url@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
+  dependencies:
+    tr46 "~0.0.3"
+    webidl-conversions "^3.0.0"
