@@ -36,6 +36,9 @@ bot.on('callback_query', (ctx) => ctx.answerCbQuery())
 bot.on('inline_query', (ctx) => {
   const result = []
   let str = ctx.inlineQuery.query
+  if (!str) {
+    str = "114514"
+  }
   result.push({
     type: 'article',
     id: hash(str),
