@@ -3,17 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "npm@10.9.2",
+  "packageManager": "yarn@4.5.0",
   "scripts": {
+    "build": "wrangler deploy --dry-run",
     "test": "node --test",
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "preview:deploy": "wrangler versions upload"
   },
   "devDependencies": {
     "wrangler": "4.136.3"
   },
   "engines": {
-    "node": ">=22",
-    "npm": ">=10"
+    "node": ">=22"
   }
 }

@@ -18,15 +18,16 @@
 1. 安装依赖并登录 Cloudflare：
 
    ```sh
-   npm install
-   npx wrangler login
+   corepack enable
+   yarn install
+   yarn wrangler login
    ```
 
 2. 保存 Telegram Bot token 和 webhook 验证密钥：
 
    ```sh
-   npx wrangler secret put BOT_TOKEN
-   npx wrangler secret put TELEGRAM_WEBHOOK_SECRET
+   yarn wrangler secret put BOT_TOKEN
+   yarn wrangler secret put TELEGRAM_WEBHOOK_SECRET
    ```
 
    `TELEGRAM_WEBHOOK_SECRET` 应为随机字符串，只能包含 `A-Z`、`a-z`、`0-9`、`_` 和 `-`。
@@ -36,17 +37,18 @@
 3. 部署 Worker：
 
    ```sh
-   npm run deploy
+   yarn deploy
    ```
 
    使用 Cloudflare Workers Builds 连接 Git 仓库时，使用以下设置：
 
-   - 构建命令（Build command）：留空
-   - 部署命令（Deploy command）：`npm run deploy`
+   - 构建命令（Build command）：`yarn run build`
+   - 部署命令（Deploy command）：`yarn run deploy`
+   - 非生产分支部署命令（Non-production branch deploy command）：`yarn run preview:deploy`
    - 根目录（Root directory）：`/`
 
-   项目使用 npm 和 `package-lock.json`。不要配置 `yarn run build`；Worker
-   没有独立的编译步骤，Wrangler 会在部署时完成打包。
+   项目使用 Corepack、Yarn 4.5.0 和 `yarn.lock`。`yarn run build` 会执行
+   Wrangler dry run，在正式部署前验证 Worker 可以正确打包。
 
 4. 将 Telegram webhook 指向部署后显示的 Worker URL。默认路径是
    `/telegram-webhook`，例如 `https://kongebot.<你的子域名>.workers.dev/telegram-webhook`：
@@ -65,7 +67,7 @@
 本地开发时，将 `.dev.vars.example` 复制为 `.dev.vars` 并填写密钥，然后运行：
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 根路径 `GET /` 是健康检查端点。Telegram 更新只接受配置路径上的 `POST` 请求。
