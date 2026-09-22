@@ -39,6 +39,15 @@
    npm run deploy
    ```
 
+   使用 Cloudflare Workers Builds 连接 Git 仓库时，使用以下设置：
+
+   - 构建命令（Build command）：留空
+   - 部署命令（Deploy command）：`npm run deploy`
+   - 根目录（Root directory）：`/`
+
+   项目使用 npm 和 `package-lock.json`。不要配置 `yarn run build`；Worker
+   没有独立的编译步骤，Wrangler 会在部署时完成打包。
+
 4. 将 Telegram webhook 指向部署后显示的 Worker URL。默认路径是
    `/telegram-webhook`，例如 `https://kongebot.<你的子域名>.workers.dev/telegram-webhook`：
 

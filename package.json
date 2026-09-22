@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "npm@10.9.2",
   "scripts": {
     "test": "node --test",
     "dev": "wrangler dev",
@@ -12,6 +13,7 @@
     "wrangler": "4.136.3"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22",
+    "npm": ">=10"
   }
 }
