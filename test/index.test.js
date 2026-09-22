@@ -8,7 +8,7 @@ import {
   isStartCommand,
   split,
   splitIntoMessages,
-} from '../worker.mjs'
+} from '../index.js'
 
 function telegramMock() {
   const calls = []
@@ -35,6 +35,15 @@ test('long transformed messages are split within Telegram limits', () => {
   assert.equal(messages.length, 2)
   assert.ok(messages.every((message) => message.length <= 4096))
   assert.equal(messages.join(' '), split(input))
+})
+
+test('a single oversized grapheme falls back to code-point boundaries', () => {
+  const input = `a${'\u0301'.repeat(4096)}`
+  const messages = splitIntoMessages(input)
+
+  assert.equal(messages.length, 2)
+  assert.ok(messages.every((message) => message.length <= 4096))
+  assert.equal(messages.join(''), input)
 })
 
 test('start commands addressed to another bot are ignored', () => {
@@ -112,7 +121,7 @@ test('webhook fails closed when its Telegram secret is missing', async () => {
   assert.equal(response.status, 500)
 })
 
-test('webhook accepts a valid update', async () => {
+test('Worker webhook accepts a valid update', async () => {
   const mock = telegramMock()
   const response = await handleRequest(new Request('https://example.com/custom-hook', {
     method: 'POST',

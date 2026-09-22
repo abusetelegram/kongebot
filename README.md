@@ -4,7 +4,7 @@
 
 方便书写 恶 臭 文 字。
 
-支持部署到 Cloudflare Workers、AWS Lambda、Fission.io 或普通 Node.js 服务。
+使用原生 Web API 部署到 Cloudflare Workers，不依赖 Telegram Bot 框架或 Node.js 兼容层。
 
 ## 使用方式
 
@@ -36,7 +36,7 @@
 3. 部署 Worker：
 
    ```sh
-   npm run cf:deploy
+   npm run deploy
    ```
 
 4. 将 Telegram webhook 指向部署后显示的 Worker URL。默认路径是
@@ -56,13 +56,9 @@
 本地开发时，将 `.dev.vars.example` 复制为 `.dev.vars` 并填写密钥，然后运行：
 
 ```sh
-npm run cf:dev
+npm run dev
 ```
 
 根路径 `GET /` 是健康检查端点。Telegram 更新只接受配置路径上的 `POST` 请求。
 
-## 入口
-
-- [Cloudflare Workers](./worker.mjs)
-- [AWS Lambda](./lambda.js)
-- [Fission.io/default](./fission.js)
+Worker 入口和机器人逻辑都在 [`index.js`](./index.js)，`wrangler.toml` 直接引用该文件。
