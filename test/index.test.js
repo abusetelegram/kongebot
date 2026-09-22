@@ -37,6 +37,15 @@ test('long transformed messages are split within Telegram limits', () => {
   assert.equal(messages.join(' '), split(input))
 })
 
+test('a single oversized grapheme falls back to code-point boundaries', () => {
+  const input = `a${'\u0301'.repeat(4096)}`
+  const messages = splitIntoMessages(input)
+
+  assert.equal(messages.length, 2)
+  assert.ok(messages.every((message) => message.length <= 4096))
+  assert.equal(messages.join(''), input)
+})
+
 test('start commands addressed to another bot are ignored', () => {
   assert.equal(isStartCommand('/start', 'kongebot'), true)
   assert.equal(isStartCommand('/start@KongeBot payload', '@kongebot'), true)

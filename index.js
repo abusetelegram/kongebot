@@ -23,6 +23,22 @@ export function splitIntoMessages(str, limit = TELEGRAM_MESSAGE_LIMIT) {
   let current = ''
 
   for (const { segment } of segmenter.segment(str)) {
+    if (segment.length > limit) {
+      if (current) {
+        messages.push(current)
+        current = ''
+      }
+
+      for (const codePoint of segment) {
+        if (current && current.length + codePoint.length > limit) {
+          messages.push(current)
+          current = ''
+        }
+        current += codePoint
+      }
+      continue
+    }
+
     const addition = current ? ` ${segment}` : segment
 
     if (current && current.length + addition.length > limit) {
