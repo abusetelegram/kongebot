@@ -30,6 +30,8 @@
    ```
 
    `TELEGRAM_WEBHOOK_SECRET` 应为随机字符串，只能包含 `A-Z`、`a-z`、`0-9`、`_` 和 `-`。
+   如果部署的机器人不是 `@kongebot`，还需要将 `wrangler.toml` 中的
+   `BOT_USERNAME` 修改为机器人用户名（不包含 `@`）。
 
 3. 部署 Worker：
 

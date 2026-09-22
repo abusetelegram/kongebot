@@ -1,7 +1,14 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { handleRequest, handleUpdate, hash, split } from '../worker.mjs'
+import {
+  handleRequest,
+  handleUpdate,
+  hash,
+  isStartCommand,
+  split,
+  splitIntoMessages,
+} from '../worker.mjs'
 
 function telegramMock() {
   const calls = []
@@ -21,6 +28,22 @@ test('hash keeps the existing 32-bit result format', () => {
   assert.equal(hash('114514'), 1449682564)
 })
 
+test('long transformed messages are split within Telegram limits', () => {
+  const input = 'A'.repeat(4096)
+  const messages = splitIntoMessages(input)
+
+  assert.equal(messages.length, 2)
+  assert.ok(messages.every((message) => message.length <= 4096))
+  assert.equal(messages.join(' '), split(input))
+})
+
+test('start commands addressed to another bot are ignored', () => {
+  assert.equal(isStartCommand('/start', 'kongebot'), true)
+  assert.equal(isStartCommand('/start@KongeBot payload', '@kongebot'), true)
+  assert.equal(isStartCommand('/start@OtherBot', 'kongebot'), false)
+  assert.equal(isStartCommand('/start@kongebot'), false)
+})
+
 test('text messages are sent back with spaces', async () => {
   const mock = telegramMock()
 
@@ -31,6 +54,28 @@ test('text messages are sent back with spaces', async () => {
   assert.equal(mock.calls.length, 1)
   assert.equal(mock.calls[0].url, 'https://api.telegram.org/bottest-token/sendMessage')
   assert.deepEqual(mock.calls[0].payload, { chat_id: 42, text: '你 好' })
+})
+
+test('long text replies are sent as ordered message chunks', async () => {
+  const mock = telegramMock()
+
+  await handleUpdate({
+    message: { chat: { id: 42 }, text: 'A'.repeat(4096) },
+  }, { BOT_TOKEN: 'test-token' }, mock.fetcher)
+
+  assert.equal(mock.calls.length, 2)
+  assert.ok(mock.calls.every(({ payload }) => payload.text.length <= 4096))
+  assert.equal(mock.calls.map(({ payload }) => payload.text).join(' '), split('A'.repeat(4096)))
+})
+
+test('commands addressed to another bot are treated as normal text', async () => {
+  const mock = telegramMock()
+
+  await handleUpdate({
+    message: { chat: { id: 42 }, text: '/start@OtherBot' },
+  }, { BOT_TOKEN: 'test-token', BOT_USERNAME: 'kongebot' }, mock.fetcher)
+
+  assert.equal(mock.calls[0].payload.text, split('/start@OtherBot'))
 })
 
 test('inline queries return an article result', async () => {

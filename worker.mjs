@@ -1,5 +1,6 @@
 const START_MESSAGE = '你 打 字 带 空 格？\r\n 直接发送要转换的消息，或者在inline模式输入文字'
 const DEFAULT_WEBHOOK_PATH = '/telegram-webhook'
+const TELEGRAM_MESSAGE_LIMIT = 4096
 const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' })
 
 export function hash(str) {
@@ -15,6 +16,43 @@ export function hash(str) {
 
 export function split(str) {
   return Array.from(segmenter.segment(str), ({ segment }) => segment).join(' ')
+}
+
+export function splitIntoMessages(str, limit = TELEGRAM_MESSAGE_LIMIT) {
+  const messages = []
+  let current = ''
+
+  for (const { segment } of segmenter.segment(str)) {
+    const addition = current ? ` ${segment}` : segment
+
+    if (current && current.length + addition.length > limit) {
+      messages.push(current)
+      current = segment
+    } else {
+      current += addition
+    }
+  }
+
+  if (current) {
+    messages.push(current)
+  }
+
+  return messages
+}
+
+export function isStartCommand(text, botUsername) {
+  const match = /^\/start(?:@(\w+))?(?:\s|$)/i.exec(text)
+  if (!match) {
+    return false
+  }
+
+  const addressedUsername = match[1]
+  if (!addressedUsername) {
+    return true
+  }
+
+  const expectedUsername = botUsername?.replace(/^@/, '')
+  return Boolean(expectedUsername && addressedUsername.toLowerCase() === expectedUsername.toLowerCase())
 }
 
 async function callTelegram(env, method, payload, fetcher) {
@@ -71,14 +109,19 @@ export async function handleUpdate(update, env, fetcher = fetch) {
     return null
   }
 
-  const text = /^\/start(?:@\w+)?(?:\s|$)/i.test(message.text)
-    ? START_MESSAGE
-    : split(message.text)
+  const replies = isStartCommand(message.text, env.BOT_USERNAME)
+    ? [START_MESSAGE]
+    : splitIntoMessages(message.text)
+  const results = []
 
-  return callTelegram(env, 'sendMessage', {
-    chat_id: message.chat.id,
-    text,
-  }, fetcher)
+  for (const text of replies) {
+    results.push(await callTelegram(env, 'sendMessage', {
+      chat_id: message.chat.id,
+      text,
+    }, fetcher))
+  }
+
+  return results.length === 1 ? results[0] : results
 }
 
 export async function handleRequest(request, env, fetcher = fetch) {
