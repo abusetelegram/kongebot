@@ -8,7 +8,7 @@ import {
   isStartCommand,
   split,
   splitIntoMessages,
-} from '../worker.mjs'
+} from '../index.js'
 
 function telegramMock() {
   const calls = []
@@ -112,7 +112,7 @@ test('webhook fails closed when its Telegram secret is missing', async () => {
   assert.equal(response.status, 500)
 })
 
-test('webhook accepts a valid update', async () => {
+test('Worker webhook accepts a valid update', async () => {
   const mock = telegramMock()
   const response = await handleRequest(new Request('https://example.com/custom-hook', {
     method: 'POST',

@@ -1,17 +1,17 @@
 {
+  "name": "kongebot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "build": "zip -r release.zip . -x '*.git*'  -x '*node_modules*'",
-    "start:webhook": "node webhook.js",
     "test": "node --test",
-    "cf:dev": "wrangler dev",
-    "cf:deploy": "wrangler deploy"
-  },
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "grapheme-splitter": "^1.0.4",
-    "telegraf": "^3.25.0"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
   "devDependencies": {
-    "wrangler": "^4.0.0"
+    "wrangler": "4.136.3"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

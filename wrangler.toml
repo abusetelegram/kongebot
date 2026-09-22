@@ -1,5 +1,5 @@
 name = "kongebot"
-main = "worker.mjs"
+main = "index.js"
 compatibility_date = "2026-09-22"
 
 [vars]
