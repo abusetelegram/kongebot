@@ -1,0 +1,6 @@
+name = "kongebot"
+main = "worker.mjs"
+compatibility_date = "2026-09-22"
+
+[vars]
+WEBHOOK_PATH = "/telegram-webhook"

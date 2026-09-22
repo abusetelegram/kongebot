@@ -2,3 +2,5 @@
 node_modules/
 .env
 release.zip
+.dev.vars
+.wrangler/
