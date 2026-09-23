@@ -9,7 +9,10 @@
     "test": "node --test",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "preview:deploy": "wrangler versions upload"
+    "preview:deploy": "wrangler versions upload",
+    "webhook:set": "node scripts/webhook.js set",
+    "webhook:info": "node scripts/webhook.js info",
+    "webhook:delete": "node scripts/webhook.js delete"
   },
   "devDependencies": {
     "wrangler": "4.136.3"
