@@ -10,7 +10,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "deploy:setup": "wrangler deploy && node scripts/webhook.js set",
-    "preview:deploy": "wrangler versions upload",
+    "preview:deploy": "wrangler preview",
     "webhook:set": "node scripts/webhook.js set",
     "webhook:info": "node scripts/webhook.js info",
     "webhook:delete": "node scripts/webhook.js delete"

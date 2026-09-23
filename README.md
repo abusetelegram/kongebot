@@ -60,7 +60,10 @@
 
    Build secrets 与 Worker 运行时 secrets 相互独立，因此 `BOT_TOKEN` 和
    `TELEGRAM_WEBHOOK_SECRET` 仍需在 Worker 的 **Variables and Secrets** 中配置。
-   非生产分支继续使用 `yarn run preview:deploy`，不要自动修改生产机器人的 webhook。
+   非生产分支继续使用 `yarn run preview:deploy`。该命令创建隔离的 Worker Preview，
+   不会复用生产 Worker 的 Telegram secrets。需要测试 Telegram 集成时，应单独为
+   Preview 配置测试机器人 token 和 webhook secret；不要将生产凭据提供给分支代码，
+   也不要让 Preview 自动修改生产机器人的 webhook。
 
 4. 将 `.dev.vars.example` 复制为 `.dev.vars`，填写 `BOT_TOKEN`、
    `TELEGRAM_WEBHOOK_SECRET` 和部署后显示的 `WORKER_URL`，然后注册 webhook：
