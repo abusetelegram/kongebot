@@ -9,6 +9,7 @@
     "test": "node --test",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "deploy:setup": "wrangler deploy && node scripts/webhook.js set",
     "preview:deploy": "wrangler versions upload",
     "webhook:set": "node scripts/webhook.js set",
     "webhook:info": "node scripts/webhook.js info",

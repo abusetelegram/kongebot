@@ -50,6 +50,19 @@
    项目使用 Corepack、Yarn 4.5.0 和 `yarn.lock`。`yarn run build` 会执行
    Wrangler dry run，在正式部署前验证 Worker 可以正确打包。
 
+   如果需要在每次生产部署后自动更新 Telegram webhook，将部署命令改为
+   `yarn run deploy:setup`，并在 **Settings > Build > Build Variables and Secrets**
+   中配置：
+
+   - `BOT_TOKEN`：Secret
+   - `TELEGRAM_WEBHOOK_SECRET`：Secret
+   - `WORKER_URL`：普通变量，例如 `https://kongebot.<你的子域名>.workers.dev`
+   - `WEBHOOK_PATH`：可选普通变量，默认 `/telegram-webhook`
+
+   Build secrets 与 Worker 运行时 secrets 相互独立，因此 `BOT_TOKEN` 和
+   `TELEGRAM_WEBHOOK_SECRET` 仍需在 Worker 的 **Variables and Secrets** 中配置。
+   非生产分支继续使用 `yarn run preview:deploy`，不要自动修改生产机器人的 webhook。
+
 4. 将 `.dev.vars.example` 复制为 `.dev.vars`，填写 `BOT_TOKEN`、
    `TELEGRAM_WEBHOOK_SECRET` 和部署后显示的 `WORKER_URL`，然后注册 webhook：
 
