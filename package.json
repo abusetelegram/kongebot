@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "yarn@4.5.0",
   "scripts": {
+    "build": "wrangler deploy --dry-run",
     "test": "node --test",
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "preview:deploy": "wrangler versions upload"
   },
   "devDependencies": {
     "wrangler": "4.136.3"
