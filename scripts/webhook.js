@@ -1,9 +1,10 @@
 import { pathToFileURL } from 'node:url'
 
-const DEFAULT_WEBHOOK_PATH = '/telegram-webhook'
+import { WEBHOOK_PATH } from '../config.js'
+
 const ALLOWED_UPDATES = ['message', 'inline_query', 'callback_query']
 
-export function buildWebhookUrl(workerUrl, webhookPath = DEFAULT_WEBHOOK_PATH) {
+export function buildWebhookUrl(workerUrl) {
   if (!workerUrl) {
     throw new Error('WORKER_URL is required')
   }
@@ -13,7 +14,7 @@ export function buildWebhookUrl(workerUrl, webhookPath = DEFAULT_WEBHOOK_PATH) {
     throw new Error('WORKER_URL must use HTTPS')
   }
 
-  url.pathname = webhookPath.startsWith('/') ? webhookPath : `/${webhookPath}`
+  url.pathname = WEBHOOK_PATH
   url.search = ''
   url.hash = ''
   return url.toString()
@@ -47,7 +48,6 @@ async function callTelegram(botToken, method, payload, fetcher) {
 export async function setWebhook({
   botToken,
   workerUrl,
-  webhookPath = DEFAULT_WEBHOOK_PATH,
   webhookSecret,
   dropPendingUpdates = false,
 }, fetcher = fetch) {
@@ -55,7 +55,7 @@ export async function setWebhook({
     throw new Error('TELEGRAM_WEBHOOK_SECRET must use 1-256 characters from A-Z, a-z, 0-9, _ and -')
   }
 
-  const url = buildWebhookUrl(workerUrl, webhookPath)
+  const url = buildWebhookUrl(workerUrl)
   const result = await callTelegram(botToken, 'setWebhook', {
     url,
     secret_token: webhookSecret,
@@ -100,7 +100,6 @@ async function main() {
     const { url } = await setWebhook({
       botToken,
       workerUrl: workerUrlArgument || process.env.WORKER_URL,
-      webhookPath: process.env.WEBHOOK_PATH,
       webhookSecret: process.env.TELEGRAM_WEBHOOK_SECRET,
       dropPendingUpdates: shouldDropPendingUpdates(),
     })

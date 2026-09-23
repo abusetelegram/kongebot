@@ -1,5 +1,6 @@
+import { WEBHOOK_PATH } from './config.js'
+
 const START_MESSAGE = '你 打 字 带 空 格？\r\n 直接发送要转换的消息，或者在inline模式输入文字'
-const DEFAULT_WEBHOOK_PATH = '/telegram-webhook'
 const TELEGRAM_MESSAGE_LIMIT = 4096
 const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' })
 
@@ -142,13 +143,12 @@ export async function handleUpdate(update, env, fetcher = fetch) {
 
 export async function handleRequest(request, env, fetcher = fetch) {
   const url = new URL(request.url)
-  const webhookPath = env.WEBHOOK_PATH || DEFAULT_WEBHOOK_PATH
 
   if (url.pathname === '/' && request.method === 'GET') {
     return Response.json({ ok: true, service: 'kongebot' })
   }
 
-  if (url.pathname !== webhookPath) {
+  if (url.pathname !== WEBHOOK_PATH) {
     return new Response('Not found', { status: 404 })
   }
 

@@ -57,7 +57,6 @@
    - `BOT_TOKEN`：Secret
    - `TELEGRAM_WEBHOOK_SECRET`：Secret
    - `WORKER_URL`：普通变量，例如 `https://kongebot.<你的子域名>.workers.dev`
-   - `WEBHOOK_PATH`：可选普通变量，默认 `/telegram-webhook`
 
    Build secrets 与 Worker 运行时 secrets 相互独立，因此 `BOT_TOKEN` 和
    `TELEGRAM_WEBHOOK_SECRET` 仍需在 Worker 的 **Variables and Secrets** 中配置。
@@ -70,8 +69,9 @@
    yarn webhook:set
    ```
 
-   命令会将 `WORKER_URL` 和 `WEBHOOK_PATH` 组合成完整 URL，并调用 Telegram
-   `setWebhook`。也可以直接传入 Worker URL：
+   命令会将 `WORKER_URL` 和 [`config.js`](./config.js) 中的 `WEBHOOK_PATH`
+   组合成完整 URL，并调用 Telegram `setWebhook`。修改路径时只需修改该文件，
+   Worker 与设置命令会使用同一个值。也可以直接传入 Worker URL：
 
    ```sh
    yarn webhook:set https://kongebot.<你的子域名>.workers.dev
