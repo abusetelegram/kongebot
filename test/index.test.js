@@ -53,11 +53,15 @@ test('start commands addressed to another bot are ignored', () => {
   assert.equal(isStartCommand('/start@kongebot'), false)
 })
 
-test('text messages are sent back with spaces', async () => {
+test('private text messages are sent back to the same chat with spaces', async () => {
   const mock = telegramMock()
 
   await handleUpdate({
-    message: { chat: { id: 42 }, text: '你好' },
+    message: {
+      message_id: 123,
+      chat: { id: 42, type: 'private' },
+      text: '你好',
+    },
   }, { BOT_TOKEN: 'test-token' }, mock.fetcher)
 
   assert.equal(mock.calls.length, 1)
