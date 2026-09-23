@@ -98,6 +98,26 @@ async function callTelegram(env, method, payload, fetcher) {
   return result.result
 }
 
+export async function handleTextMessage(message, env, fetcher = fetch) {
+  if (!message || typeof message.text !== 'string' || message.chat?.id == null) {
+    return null
+  }
+
+  const replies = isStartCommand(message.text, env.BOT_USERNAME)
+    ? [START_MESSAGE]
+    : splitIntoMessages(message.text)
+  const results = []
+
+  for (const text of replies) {
+    results.push(await callTelegram(env, 'sendMessage', {
+      chat_id: message.chat.id,
+      text,
+    }, fetcher))
+  }
+
+  return results.length === 1 ? results[0] : results
+}
+
 export async function handleUpdate(update, env, fetcher = fetch) {
   if (update.inline_query) {
     const query = update.inline_query.query || '114514'
@@ -121,24 +141,7 @@ export async function handleUpdate(update, env, fetcher = fetch) {
     }, fetcher)
   }
 
-  const message = update.message
-  if (!message || typeof message.text !== 'string') {
-    return null
-  }
-
-  const replies = isStartCommand(message.text, env.BOT_USERNAME)
-    ? [START_MESSAGE]
-    : splitIntoMessages(message.text)
-  const results = []
-
-  for (const text of replies) {
-    results.push(await callTelegram(env, 'sendMessage', {
-      chat_id: message.chat.id,
-      text,
-    }, fetcher))
-  }
-
-  return results.length === 1 ? results[0] : results
+  return handleTextMessage(update.message, env, fetcher)
 }
 
 export async function handleRequest(request, env, fetcher = fetch) {
