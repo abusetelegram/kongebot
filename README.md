@@ -50,19 +50,46 @@
    项目使用 Corepack、Yarn 4.5.0 和 `yarn.lock`。`yarn run build` 会执行
    Wrangler dry run，在正式部署前验证 Worker 可以正确打包。
 
-4. 将 Telegram webhook 指向部署后显示的 Worker URL。默认路径是
-   `/telegram-webhook`，例如 `https://kongebot.<你的子域名>.workers.dev/telegram-webhook`：
+   如果需要在每次生产部署后自动更新 Telegram webhook，将部署命令改为
+   `yarn run deploy:setup`，并在 **Settings > Build > Build Variables and Secrets**
+   中配置：
+
+   - `BOT_TOKEN`：Secret
+   - `TELEGRAM_WEBHOOK_SECRET`：Secret
+   - `WORKER_URL`：普通变量，例如 `https://kongebot.<你的子域名>.workers.dev`
+
+   Build secrets 与 Worker 运行时 secrets 相互独立，因此 `BOT_TOKEN` 和
+   `TELEGRAM_WEBHOOK_SECRET` 仍需在 Worker 的 **Variables and Secrets** 中配置。
+   非生产分支继续使用 `yarn run preview:deploy`。该命令创建隔离的 Worker Preview，
+   不会复用生产 Worker 的 Telegram secrets。需要测试 Telegram 集成时，应单独为
+   Preview 配置测试机器人 token 和 webhook secret；不要将生产凭据提供给分支代码，
+   也不要让 Preview 自动修改生产机器人的 webhook。
+
+4. 将 `.dev.vars.example` 复制为 `.dev.vars`，填写 `BOT_TOKEN`、
+   `TELEGRAM_WEBHOOK_SECRET` 和部署后显示的 `WORKER_URL`，然后注册 webhook：
 
    ```sh
-   curl -X POST "https://api.telegram.org/bot${BOT_TOKEN}/setWebhook" \
-     --data-urlencode "url=${WORKER_URL}/telegram-webhook" \
-     --data-urlencode "secret_token=${TELEGRAM_WEBHOOK_SECRET}" \
-     --data-urlencode 'allowed_updates=["message","inline_query","callback_query"]'
+   yarn webhook:set
    ```
 
-   上述命令需要本地环境变量 `BOT_TOKEN`、`WORKER_URL` 和
-   `TELEGRAM_WEBHOOK_SECRET`。修改 `wrangler.toml` 中的 `WEBHOOK_PATH` 时，
-   webhook URL 也必须使用相同路径。
+   命令会将 `WORKER_URL` 和 [`config.js`](./config.js) 中的 `WEBHOOK_PATH`
+   组合成完整 URL，并调用 Telegram `setWebhook`。修改路径时只需修改该文件，
+   Worker 与设置命令会使用同一个值。也可以直接传入 Worker URL：
+
+   ```sh
+   yarn webhook:set https://kongebot.<你的子域名>.workers.dev
+   ```
+
+   查询或删除当前 webhook：
+
+   ```sh
+   yarn webhook:info
+   yarn webhook:delete
+   ```
+
+   `BOT_TOKEN` 和 `TELEGRAM_WEBHOOK_SECRET` 在本地 `.dev.vars` 与 Cloudflare
+   secrets 中必须保持一致。设置 `DROP_PENDING_UPDATES=true` 后执行 set 或 delete
+   可以丢弃 Telegram 等待发送的旧更新。
 
 本地开发时，将 `.dev.vars.example` 复制为 `.dev.vars` 并填写密钥，然后运行：
 

@@ -123,7 +123,7 @@ test('webhook fails closed when its Telegram secret is missing', async () => {
 
 test('Worker webhook accepts a valid update', async () => {
   const mock = telegramMock()
-  const response = await handleRequest(new Request('https://example.com/custom-hook', {
+  const response = await handleRequest(new Request('https://example.com/telegram-webhook', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -133,7 +133,6 @@ test('Worker webhook accepts a valid update', async () => {
   }), {
     BOT_TOKEN: 'test-token',
     TELEGRAM_WEBHOOK_SECRET: 'expected',
-    WEBHOOK_PATH: '/custom-hook',
   }, mock.fetcher)
 
   assert.equal(response.status, 204)
